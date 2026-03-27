@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "homepage": "https://FrankDannie.github.io/my-portfolio",
+    "homepage": "https://frankdannie.github.io/Personal-Portfolio/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
