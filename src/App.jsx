@@ -1,4 +1,5 @@
 import "./styles/main.scss";
+import profile from "./assets/profile.jpeg";
 
 export default function App() {
 
@@ -12,7 +13,7 @@ export default function App() {
       {/* HERO */}
       <section className="hero">
       <div className="hero">
-            <img src="../public/profile.jpeg" alt="Frank Dannie" />
+            <img src={profile} alt="Frank Dannie" />
           </div>
         <div className="hero-content">
 
