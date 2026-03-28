@@ -7,7 +7,6 @@ body {
   
   .container {
     max-width: 1100px;
-    margin: auto;
     padding: 0 24px;
   }
   
@@ -28,3 +27,42 @@ body {
   p {
     color: $muted;
   }
+
+
+/* Mobile */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  section {
+    margin-top: 60px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  section {
+    margin-top: 40px;
+  }
+}
