@@ -1,268 +1,320 @@
-import "./styles/main.scss";
-import profile from "./assets/profile.jpeg";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import photo from "./assets/profile.jpeg";
+import {
+  profile,
+  about,
+  stack,
+  experience,
+  projects,
+  internships,
+  education,
+  certifications,
+  achievements,
+  volunteering,
+  languages,
+} from "./data";
 
-export default function App() {
+const NAV = [
+  { id: "work", label: "Work" },
+  { id: "experience", label: "Experience" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
+];
 
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+function Nav() {
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const els = NAV.map((n) => document.getElementById(n.id)).filter(Boolean);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(e.target.id));
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <div className="container">
-
-      {/* HERO */}
-      <section className="hero">
-      <div className="hero">
-            <img src={profile} alt="Frank Dannie" />
-          </div>
-        <div className="hero-content">
-
-          {/* LEFT */}
-          <div className="hero-left">
-            <h1 className="title">
-              Frank Dannie <br />
-              <span>AI Engineer & GenAI Architect</span>
-            </h1>
-
-            <p className="about">
-              Forward Deployed AI Engineer at SoftBank × OpenAI JV, specializing in
-              production-grade Generative AI systems, RAG architectures, and multi-agent workflows.
-            </p>
-
-            <div className="buttons">
-              <button className="primary" onClick={() => scrollTo("projects")}>
-                View Work
-              </button>
-
-              <button className="secondary" onClick={() => scrollTo("contact")}>
-                Contact
-              </button>
-
-              <button onClick={() => window.open("https://github.com/FrankDannie")}>
-                GitHub
-              </button>
-
-              <button onClick={() => window.open("https://www.linkedin.com/in/frank-e-m-dannie-7878a0163/")}>
-                LinkedIn
-              </button>
-            </div>
-          </div>
-
-
-
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section id="about">
-        <h2>About Me</h2>
-        <p>
-          I am a Forward Deployed AI Engineer with 5+ years of experience building
-          production-grade AI systems. I specialize in designing scalable GenAI solutions,
-          including RAG architectures and multi-agent workflows, and delivering them in
-          real-world enterprise environments.
-        </p>
-        <p>
-          I work closely with stakeholders to translate business problems into deployable
-          AI systems, bridging the gap between cutting-edge research and practical impact.
-        </p>
-      </section>
-
-      {/* SKILLS */}
-      <section>
-        <h2>Tech Stack</h2>
-        <div className="grid">
-          {[
-            "Python",
-            "FastAPI",
-            "SQL",
-            "LangChain / LangGraph",
-            "RAG Systems",
-            "LLMs & GenAI",
-            "Azure Cloud",
-            "Docker",
-          ].map((s) => (
-            <div className="card" key={s}>{s}</div>
-          ))}
-        </div>
-      </section>
-
-      {/* EXPERIENCE */}
-      <section id="experience">
-        <h2>Experience</h2>
-
-        <div className="card">
-          <h3>SoftBank × OpenAI JV</h3>
-          <p><strong>Forward Deployed AI Engineer</strong> | Aug 2025 – Present</p>
-          <ul>
-            <li>Led design and deployment of enterprise GenAI solutions</li>
-            <li>Built RAG pipelines and multi-agent systems for clients</li>
-            <li>Collaborated directly with customers to define AI strategy</li>
-            <li>Delivered PoCs, demos, and production-grade deployments</li>
-          </ul>
-        </div>
-
-        <div className="card">
-          <h3>VeBuIn Japan</h3>
-          <p><strong>System Engineer</strong> | Apr 2022 – Jul 2025</p>
-          <ul>
-            <li>Developed and deployed full-stack enterprise applications</li>
-            <li>Translated business requirements into scalable systems</li>
-            <li>Managed end-to-end delivery and post-production support</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* INTERNSHIPS */}
-      <section>
-        <h2>Internships</h2>
-
-        <div className="card">
-          <h3>Tequed Labs — Full Stack Developer Intern</h3>
-          <p>Jan 2022 – Mar 2022 | Bengaluru</p>
-          <ul>
-            <li>Built a full-stack tourism web application from design to deployment</li>
-            <li>Delivered a responsive, production-ready system with optimizations</li>
-          </ul>
-        </div>
-
-        <div className="card">
-          <h3>SS&C Blue Prism — RPA Developer Intern</h3>
-          <p>Jun 2021 – Oct 2021 | Bengaluru</p>
-          <ul>
-            <li>Developed RPA workflows for invoice processing automation</li>
-            <li>Improved operational efficiency through automation</li>
-          </ul>
-        </div>
-
-        <div className="card">
-          <h3>XIMB — Machine Learning Intern</h3>
-          <p>Nov 2020 – May 2021 | Bhubaneswar</p>
-          <ul>
-            <li>Built sentiment analysis system for large-scale Amazon review data</li>
-            <li>Delivered actionable insights for marketing stakeholders</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects">
-        <h2>Selected Work</h2>
-
-        <div className="projects">
-          <div className="project-card">
-            <h3>RAG Architecture Platform</h3>
-            <p>
-              Built scalable retrieval systems using embeddings and vector databases,
-              enabling enterprise knowledge search with LLMs.
-            </p>
-          </div>
-
-          <div className="project-card">
-            <h3>Multi-Agent AI System</h3>
-            <p>
-              Designed autonomous agent workflows using LangGraph orchestration.
-            </p>
-          </div>
-
-          <div className="project-card">
-            <h3>GenAI Backend Platform</h3>
-            <p>
-              Developed production-grade APIs integrating OpenAI services using FastAPI.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* EDUCATION */}
-      <section>
-        <h2>Education</h2>
-
-        <div className="card">
-          <h3>MBA – Project Management</h3>
-          <p>JAIN University (2025 – 2027)</p>
-        </div>
-
-        <div className="card">
-          <h3>B.E. Computer Science</h3>
-          <p>DSATM, Bangalore (2018 – 2022)</p>
-        </div>
-      </section>
-
-      {/* CERTIFICATIONS */}
-      <section>
-        <h2>Certifications</h2>
-        <div className="grid">
-          {[
-            "JLPT N2",
-            "Google Cloud Generative AI Leader",
-            "Solutions Architect Associate",
-            "Workato Agentic AI",
-            "Blue Prism RPA Foundation",
-          ].map((c) => (
-            <div className="card" key={c}>{c}</div>
-          ))}
-        </div>
-      </section>
-
-      {/* ACHIEVEMENTS */}
-      <section>
-        <h2>Key Achievements</h2>
+    <header className="nav-wrap">
+      <nav className="nav" aria-label="Primary">
+        <a className="nav-mark" href="#top" aria-label="Back to top">
+          FD
+        </a>
         <ul>
-          <li>Bridged business needs with scalable AI solutions in production</li>
-          <li>Led architecture design, code reviews, and technical mentorship</li>
-          <li>Worked in high-impact enterprise AI environments</li>
-          <li>Active contributor to open-source AI/ML projects</li>
+          {NAV.map((n) => (
+            <li key={n.id}>
+              <a href={`#${n.id}`} aria-current={active === n.id ? "true" : undefined}>
+                {n.label}
+              </a>
+            </li>
+          ))}
         </ul>
-      </section>
+      </nav>
+    </header>
+  );
+}
 
-      {/* VOLUNTEERING */}
-      <section>
-        <h2>Volunteering</h2>
+function Hero() {
+  const reduce = useReducedMotion();
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 90]);
 
-        <div className="card">
-          <h3>Sunday School Teacher</h3>
-          <p>Resurrection Church (2018 – 2019)</p>
+  const rise = (i) =>
+    reduce
+      ? {}
+      : {
+          initial: { y: "110%" },
+          animate: { y: 0 },
+          transition: { duration: 0.9, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] },
+        };
+
+  return (
+    <section className="hero" id="top" ref={ref}>
+      <div className="hero-grid">
+        <div className="hero-text">
+          <h1 className="hero-name" aria-label={profile.name}>
+            {profile.name.split(" ").map((w, i) => (
+              <span className="mask" key={w} aria-hidden="true">
+                <motion.span className="mask-inner" {...rise(i)}>
+                  {w}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
+
+          <motion.div
+            className="hero-copy"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <p className="hero-role">{profile.role}</p>
+            <p className="hero-intro">{profile.intro}</p>
+            <div className="hero-actions">
+              <a className="btn btn-solid" href="#work">
+                See selected work
+              </a>
+              <a className="btn btn-ghost" href="#contact">
+                Get in touch
+              </a>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="card">
-          <h3>Campus Ambassador</h3>
-          <p>Hackathon.com (2019)</p>
-        </div>
-      </section>
+        <motion.figure
+          className="hero-photo"
+          initial={reduce ? false : { opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.img
+            src={photo}
+            alt="Frank Dannie sitting on concrete breakwater blocks by the sea"
+            style={{ y: imgY }}
+          />
+        </motion.figure>
+      </div>
+    </section>
+  );
+}
 
-      {/* LANGUAGES */}
-      <section>
-        <h2>Languages</h2>
-        <div className="grid">
-          <div className="card">English — Native</div>
-          <div className="card">Japanese — Business (JLPT N2)</div>
-          <div className="card">Tamil — Native</div>
-          <div className="card">Hindi — Intermediate</div>
-          <div className="card">German — Beginner</div>
-        </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: frank.dannie@gmail.com</p>
-
-        <p>
-          GitHub:{" "}
-          <a href="https://github.com/FrankDannie" target="_blank">
-            github.com/FrankDannie
-          </a>
-        </p>
-
-        <p>
-          LinkedIn:{" "}
-          <a href="https://www.linkedin.com/in/frank-e-m-dannie-7878a0163/" target="_blank">
-          frank-e-m-dannie-7878a0163/
-          </a>
-        </p>
-      </section>
-
+function Marquee() {
+  const items = [...stack, ...stack];
+  return (
+    <div className="marquee" aria-label="Tech stack">
+      <ul className="marquee-track">
+        {items.map((s, i) => (
+          <li key={i} aria-hidden={i >= stack.length ? "true" : undefined}>
+            {s}
+          </li>
+        ))}
+      </ul>
     </div>
+  );
+}
+
+function SectionHead({ title, note }) {
+  return (
+    <div className="section-head">
+      <h2>{title}</h2>
+      {note && <p>{note}</p>}
+    </div>
+  );
+}
+
+function Work() {
+  return (
+    <section className="section" id="work">
+      <SectionHead title="Selected work" note="Systems I've designed and shipped for enterprise teams." />
+      <div className="work-list">
+        {projects.map((p) => (
+          <article className="project" key={p.title} style={{ "--tint": p.tint }}>
+            <div className="project-body">
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+            <ul className="tags">
+              {p.tags.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section className="section" id="experience">
+      <SectionHead title="Experience" />
+      <ol className="timeline">
+        {experience.map((job) => (
+          <li className="job" key={job.company + job.period}>
+            <p className="job-period">{job.period}</p>
+            <div>
+              <h3>{job.company}</h3>
+              <p className="job-role">{job.role}</p>
+              <ul className="job-points">
+                {job.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <h3 className="subhead">Internships</h3>
+      <ul className="intern-list">
+        {internships.map((i) => (
+          <li key={i.company}>
+            <p className="job-period">
+              {i.period}
+              <br />
+              {i.place}
+            </p>
+            <div>
+              <h4>{i.company}</h4>
+              <p className="job-role">{i.role}</p>
+              <p className="intern-text">{i.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section className="section" id="about">
+      <SectionHead title="About" />
+      <div className="about-grid">
+        <div className="about-text">
+          <p className="about-lead">{about[0]}</p>
+          <p>{about[1]}</p>
+          <ul className="achievements">
+            {achievements.map((a) => (
+              <li key={a}>{a}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="facts">
+          <div>
+            <h3>Education</h3>
+            <ul>
+              {education.map((e) => (
+                <li key={e.title}>
+                  <strong>{e.title}</strong>
+                  <span>
+                    {e.place}, {e.period}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Certifications</h3>
+            <ul className="plain">
+              {certifications.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Languages</h3>
+            <ul>
+              {languages.map((l) => (
+                <li key={l.name}>
+                  <strong>{l.name}</strong>
+                  <span>{l.level}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Volunteering</h3>
+            <ul>
+              {volunteering.map((v) => (
+                <li key={v.title}>
+                  <strong>{v.title}</strong>
+                  <span>
+                    {v.place}, {v.period}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <footer className="contact" id="contact">
+      <div className="contact-inner">
+        <h2>Have an AI problem worth solving? Let's talk.</h2>
+        <a className="contact-mail" href={`mailto:${profile.email}`}>
+          {profile.email}
+        </a>
+        <div className="contact-links">
+          <a href={profile.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+          <a href={profile.github} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </div>
+        <p className="copyright">© {new Date().getFullYear()} Frank Dannie</p>
+      </div>
+    </footer>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <a className="skip" href="#work">
+        Skip to content
+      </a>
+      <Nav />
+      <main>
+        <Hero />
+        <Marquee />
+        <Work />
+        <Experience />
+        <About />
+      </main>
+      <Contact />
+    </>
   );
 }
